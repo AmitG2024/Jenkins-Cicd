@@ -19,8 +19,10 @@ pipeline {
         stage('Push to JFrog') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'jfrog-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh 'docker login -u $USER -p $PASS your-jfrog-url'
-                    sh 'docker push your-jfrog-url/myapp:latest'
+                    sh '''
+                        docker login -u $USER -p $PASS yoursubdomain.jfrog.io
+                        docker push yoursubdomain.jfrog.io/docker/myapp:latest
+                    '''
                 }
             }
         }
